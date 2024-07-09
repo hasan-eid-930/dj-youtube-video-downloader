@@ -89,18 +89,23 @@ TEMPLATES = [
     },
 ]
 ASGI_APPLICATION = "project.asgi.application"
-WSGI_APPLICATION = 'project.wsgi.application'
-
+# WSGI_APPLICATION = 'project.wsgi.application'
+# use it for development
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
-            
-        },
-
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
 }
+REDIS_LOCALLY = False
+if ENVIRONMENT == 'production' or REDIS_LOCALLY == True:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [(env('REDIS_URL'))],
+            },
+        }
+    }
 # WEBSOCKET_CLOSE_TIMEOUT = 20  # Increase the timeout to 20 seconds
 # WEBSOCKET_DISCONNECT_TIMEOUT = 20  # Increase the timeout to 10 seconds
 
