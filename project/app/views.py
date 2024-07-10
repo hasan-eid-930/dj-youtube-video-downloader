@@ -20,8 +20,6 @@ from pytube.exceptions import *
 import uuid
 from moviepy.editor import *
 import ffmpeg
-import vidgear
-from vidgear.gears import StreamGear
 from moviepy.editor import VideoFileClip
 from django.core.signals import request_finished
 from django.dispatch import receiver
